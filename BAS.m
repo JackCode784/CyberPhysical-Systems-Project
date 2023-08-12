@@ -13,8 +13,8 @@ function [x_best, y_best] = BAS(doPlot)
 % Parameters
 d = 3;          % antennae's sensing length
 n = 100;        % Max number of iterations
-eta = 0.95;     % learning rate?
-delta = 1;      % search step size
+eta = 0.95;     % step factor
+delta = 10;     % search step size
 
 
 % Beetle position and orientation randomly initialized
@@ -24,16 +24,18 @@ x = x / norm(x);
 
 % Data history for visualization
 x_history = zeros(dim) * ones(1, n);
-y_history = zeros(1, n); 
+y_history = zeros(1, n);
 
-% Evaluate fitness function in current position
-y_best = fitness_fun(x);
+% First cost function value
 x_best = x;
+y_best = cost_fun(x);
 
+% Iterations
 for i=1:n
     % Data history for visualization
-    x_history(:, i) = x_best;
-    y_history(i) = y_best;
+    y = cost_fun(x);     % evaluate cost function in current position
+    x_history(:, i) = x;
+    y_history(i) = y;
 
     % Random search direction
     b = rand(dim);      
@@ -44,11 +46,11 @@ for i=1:n
     x_l = x - d * b;
     
     % Update beetle's position
-    x = x + delta * sign(fitness_fun(x_r) - fitness_fun(x_l)) * b;
-    
-    y_curr = fitness_fun(x);
-    if  y_curr < y_best
-        y_best = y_curr;
+    x = x + delta * sign(cost_fun(x_l) - cost_fun(x_r)) * b;
+    y = cost_fun(x);
+
+    if  y < y_best
+        y_best = y;
         x_best = x;
     end
     
@@ -57,22 +59,20 @@ for i=1:n
     d = d * eta + 0.01;
     delta = delta * eta;
 end
+
+% Visualization
 if doPlot == true
-
+    
 end
 
 end
 
 
-% Fitness function: denotes concentration of odour at position x. Maximum
+% Cost function: denotes concentration of odour at position x. Maximum
 % value of x corresponds to the source of the odour.
-function [x_bst, y_bst] = fitness_fun(x) 
+function y = cost_fun(x) 
 
-% theta=x;
-% x=theta(1);
-% y=theta(2);
-
-% % Michalewicz function
-% y_bst = -sin(x).*(sin(x.^2/pi)).^20-sin(y).*(sin(2*y.^2/pi)).^20;
+% Michalewicz function
+y = -sin(x).*(sin(x.^2/pi)).^20-sin(y).*(sin(2*y.^2/pi)).^20;
 
 end
