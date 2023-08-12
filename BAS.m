@@ -10,18 +10,20 @@
 % efficiently.
 
 function [x_best, y_best] = BAS(doPlot)
+close all;
+
 % Parameters
-d = 3;          % antennae's sensing length
-n = 100;        % Max number of iterations
+n_dims = 2;     % search space dimension
+d = 2;          % antennae's sensing length
+n = 100;        % max number of iterations
 eta = 0.95;     % step factor
 delta = 10;     % search step size
 
-d = 2;
 delta = 0.5;
 
 
 % Beetle position and orientation randomly initialized
-dim = [d, 1];
+dim = [n_dims, 1];
 x = rand(dim);      % random position of beetle
 x = x / norm(x);
 
@@ -65,7 +67,22 @@ end
 
 % Visualization
 if doPlot == true
-    
+    if n_dims == 2
+        x_star = [2.20319; 1.57049];
+        y_star = cost_fun(x_star);
+
+        % Plot
+        figure;
+        xlabel('x_1');
+        ylabel('x_2');
+        title('Beetle path');
+        hold on;
+        plot(x_history(1,:), x_history(2,:));
+        plot(x_star(1), x_star(2), 'r*');
+        plot(x_history(1,end), x_history(2,end), 'kx');
+        hold off;
+        grid on;
+    end 
 end
 
 end
