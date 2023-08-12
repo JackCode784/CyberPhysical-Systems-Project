@@ -16,9 +16,12 @@ n = 100;        % Max number of iterations
 eta = 0.95;     % step factor
 delta = 10;     % search step size
 
+d = 2;
+delta = 0.5;
+
 
 % Beetle position and orientation randomly initialized
-dim = [3, 1];
+dim = [d, 1];
 x = rand(dim);      % random position of beetle
 x = x / norm(x);
 
@@ -68,11 +71,13 @@ end
 end
 
 
-% Cost function: denotes concentration of odour at position x. Maximum
-% value of x corresponds to the source of the odour.
-function y = cost_fun(x) 
+% Cost function: denotes the opposite of the concentration of odour at 
+% position x. Minimum value of x corresponds to the source of the odour.
 
+function y = cost_fun(x)
 % Michalewicz function
-y = -sin(x).*(sin(x.^2/pi)).^20-sin(y).*(sin(2*y.^2/pi)).^20;
 
+d = (1:length(x))';
+m = 10;
+y = -sum(sin(x) .* (sin(d .* (x .^ 2) / pi) .^ (2 * m)));
 end
