@@ -105,14 +105,3 @@ if doPlot == true
 end
 
 end
-
-
-% Cost function: denotes the opposite of the concentration of odour at 
-% position x. Minimum value of x corresponds to the source of the odour.
-% function y = cost_fun(x)
-% % Michalewicz function
-% sz = size(x);
-% d = (1:sz(1));
-% m = 10;
-% y = -sum(sin(x) .* (sin(d * (x .^ 2) / pi) .^ (2 * m)));
-% end
