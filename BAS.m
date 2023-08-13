@@ -13,14 +13,18 @@ function [x_best, y_best] = BAS(doPlot)
 close all;
 
 % Parameters
-n_dims = 2;     % search space dimension
-d = 2;          % antennae's sensing length
+n_dims = 3;     % search space dimension
+d = 3;          % antennae's sensing length
 n = 100;        % max number of iterations
 eta = 0.95;     % step factor
 delta = 10;     % search step size
 
-delta = 0.5;
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Testing
+n_dims = 2;
+% d = 2;
+% delta = 0.5;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 % Beetle position and orientation randomly initialized
 dim = [n_dims, 1];
@@ -29,7 +33,7 @@ x = x / norm(x);
 
 % Data history for visualization
 x_history = zeros(dim) * ones(1, n);
-y_history = zeros(1, n);
+y_history = zeros(n, 1);
 
 % First cost function value
 x_best = x;
@@ -38,8 +42,8 @@ y_best = cost_fun(x);
 % Iterations
 for i=1:n
     % Data history for visualization
-    y = cost_fun(x);     % evaluate cost function in current position
-    x_history(:, i) = x;
+    y = cost_fun(x);        % evaluate cost function in current position
+    x_history(:, i) = x;    
     y_history(i) = y;
 
     % Random search direction
@@ -61,28 +65,43 @@ for i=1:n
     
     % Update d and delta
     % Comment next two lines to set d and delta as constants
-    d = d * eta + 0.01;
+    % d = d * eta + 0.01;
     delta = delta * eta;
 end
 
 % Visualization
 if doPlot == true
+    % Testing in 2 dimensions
     if n_dims == 2
         x_star = [2.20319; 1.57049];
         y_star = cost_fun(x_star);
 
         % Plot
         figure;
-        xlabel('x_1');
-        ylabel('x_2');
-        title('Beetle path');
         hold on;
-        plot(x_history(1,:), x_history(2,:));
+        plot(x_history(1,:), x_history(2,:), '-o');
         plot(x_star(1), x_star(2), 'r*');
         plot(x_history(1,end), x_history(2,end), 'kx');
         hold off;
+        xlabel('x_1');
+        ylabel('x_2');
+        title('Beetle path');
+        legend('Beetle path', 'Global minimum', 'Final position')
         grid on;
-    end 
+    elseif n_dims == 3
+        figure;
+        plot3(x_history(1,:), x_history(2,:), x_history(3,:), 'Color', 'r', LineStyle='-.');
+        hold on;
+        plot3(x_best(1), x_best(2), x_best(3), 'Color', 'black', 'Marker','x');
+        plot3(x_history(1,end), x_history(2,end), x_history(3, end), 'Color','green', 'Marker', '*');
+        hold off;
+        xlabel('k_p');
+        ylabel('k_i');
+        zlabel('k_d');
+        title('Beetle path');
+        legend('Path','Local minimum', 'Final beetle position');
+        grid on;
+    end
 end
 
 end
@@ -90,11 +109,10 @@ end
 
 % Cost function: denotes the opposite of the concentration of odour at 
 % position x. Minimum value of x corresponds to the source of the odour.
-
-function y = cost_fun(x)
-% Michalewicz function
-
-d = (1:length(x))';
-m = 10;
-y = -sum(sin(x) .* (sin(d .* (x .^ 2) / pi) .^ (2 * m)));
-end
+% function y = cost_fun(x)
+% % Michalewicz function
+% sz = size(x);
+% d = (1:sz(1));
+% m = 10;
+% y = -sum(sin(x) .* (sin(d * (x .^ 2) / pi) .^ (2 * m)));
+% end
