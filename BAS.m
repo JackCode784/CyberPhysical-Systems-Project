@@ -15,21 +15,21 @@ close all;
 % Parameters
 n_dims = 3;     % search space dimension
 d = 3;          % antennae's sensing length
-d0 = 0.001;     %% Testing % Constant
+% d0 = 0.001;     % Constant
 eta = 0.95;     % step factor
 delta = 10;     % search step size
 n = 100;        % max number of iterations
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Testing
-n_dims = 2;
+% n_dims = 2;
 % d = 2;
-delta = 0.8;
+% delta = 0.8;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 % Beetle position and orientation randomly initialized
 sz = [n_dims, 1];
-x = 2 * rand(sz);   % random position of beetle
+x = rand(sz);       % random position of beetle
 x = x / norm(x);
 
 % Data history for visualization
@@ -54,6 +54,7 @@ for i=1:n
     % Left and right antennae's position update
     x_r = x + d * b;    
     x_l = x - d * b;
+
     % Update beetle's position
     x = x + delta * sign(cost_fun(x_l) - cost_fun(x_r)) * b;
     y = cost_fun(x);
@@ -65,7 +66,7 @@ for i=1:n
     
     % Update d and delta
     % Comment next two lines to set d and delta as constants
-    d = d * eta + d0;
+    % d = d * eta + d0;
     delta = delta * eta;
     
 end
@@ -119,6 +120,9 @@ if doPlot == true
         title('Beetle path');
         legend('Path','Local minimum', 'Final beetle position');
         grid on;
+
+        % Plot three final values of k_p, k_i, k_d
+        % WIP
     end
 end
 
