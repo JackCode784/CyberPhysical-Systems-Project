@@ -39,10 +39,12 @@ y_history = zeros(n, 1);
 % First cost function value
 x_best = x;
 y_best = cost_fun(x);
+y_best_history = zeros(n,1);
 
 % Iterations
 for i=1:n
     % Data history for visualization
+    y_best_history(i) = y_best;
     y = cost_fun(x);        % evaluate cost function in current position
     x_history(:, i) = x;    
     y_history(i) = y;
@@ -118,11 +120,20 @@ if doPlot == true
         ylabel('k_i');
         zlabel('k_d');
         title('Beetle path');
-        legend('Path','Local minimum', 'Final beetle position');
+        legend('Path','Local minimum', 'Final beetle position', 'Location','southeast');
         grid on;
 
-        % Plot three final values of k_p, k_i, k_d
-        % WIP
+        % Plot cost function vs iterations
+        figure;
+        hold on;
+        plot(1:n, y_history);
+        plot(1:n, y_best_history, 'LineStyle','-.', 'Color','r');
+        hold off;
+        xlabel('Iteration');
+        ylabel('Cost function');
+        title('Cost function vs iterations');
+        legend('Cost func', 'Minimum found');
+        grid on;
     end
 end
 
