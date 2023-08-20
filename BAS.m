@@ -8,6 +8,14 @@
 % antennae, then the beetle will fly to the left and vice versa.
 % According to this simple principle, beetle can find food
 % efficiently.
+% 
+% Input:
+%   - doPlot: boolean to visualize data
+% 
+% Output:
+%   - x_best: cost function's local minimum found
+%   - y_best: cost function value in the local minimum x_best
+% 
 
 function [x_best, y_best] = BAS(doPlot)
 close all;
@@ -33,7 +41,7 @@ x = rand(sz);       % random position of beetle
 x = x / norm(x);
 
 % Data history for visualization
-x_history = zeros(sz) * ones(1, n);
+x_history = zeros(n_dims, n);
 y_history = zeros(n, 1);
 
 % First cost function value
