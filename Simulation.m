@@ -27,7 +27,7 @@ itaes = zeros(2,n);             % history of itaes computed
 % First set of k_p, k_i, k_d
 x_best = x;
 k = x;
-simOut = sim("System.slx");
+simOut = sim("System.slx", "SrcWorkspace", "current");
 y_best = simOut.itae_test(end);
 y_best_history = zeros(n,1);
 
@@ -48,14 +48,14 @@ for i=1:n
 
     % Evaluate ITAE cost function in x_r, x_l
     k = x_l;
-    itaes(1,i) = sim("System.slx").itae_test(end);
+    itaes(1,i) = sim("System.slx", "SrcWorkspace", "current").itae_test(end);
     k = x_r;
-    itaes(2,i) = sim("System.slx").itae_test(end);
+    itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test(end);
 
     % Update beetle's position
     x = x + delta * sign(itaes(1,i) - itaes(2,i)) * b;
     k = x;
-    simOut = sim("System.slx");
+    simOut = sim("System.slx", 'SrcWorkspace', 'current');
     y = simOut.itae_test(end);
 
     if y < y_best
