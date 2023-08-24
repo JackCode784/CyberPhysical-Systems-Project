@@ -4,6 +4,8 @@
 % algorithm.
 % 
 
+function k = Simulation(doPlot)
+
 n_dims = 3;             % search space dimension
 d = 3;                  % antennae's sensing length
 % d0 = 0.001;             % Constant
@@ -70,30 +72,32 @@ end
 k = x_best;
 display(['Best parameters found: ', num2str(k(1)), ', ', num2str(k(2)), ', ', num2str(k(3))]);
 
-%% Visualization
-figure;
-hold on;
-plot3(x_history(1,:), x_history(2,:), x_history(3,:), 'Color','r', 'LineStyle','-.');
-plot3(x_best(1), x_best(2), x_best(3), 'Color', 'black', 'Marker','x');
-plot3(x_history(1,end), x_history(2,end), x_history(3, end), 'Color','green', 'Marker', '*');
-hold off;
-xlabel('k_p');
-ylabel('k_i');
-zlabel('k_d');
-title('Beetle path');
-legend('Path','Local minimum', 'Final beetle position', 'Location','southeast');
-grid on;
+if doPlot == true
+    %% Visualization
+    figure;
+    hold on;
+    plot3(x_history(1,:), x_history(2,:), x_history(3,:), 'Color','r', 'LineStyle','-.');
+    plot3(x_best(1), x_best(2), x_best(3), 'Color', 'black', 'Marker','x');
+    plot3(x_history(1,end), x_history(2,end), x_history(3, end), 'Color','green', 'Marker', '*');
+    hold off;
+    xlabel('k_p');
+    ylabel('k_i');
+    zlabel('k_d');
+    title('Beetle path');
+    legend('Path','Local minimum', 'Final beetle position', 'Location','southeast');
+    grid on;
+    
+    % Plot itae against iterations
+    figure;
+    hold on;
+    plot(1:n, y_history);
+    plot(1:n, y_best_history, 'LineStyle','-.', 'Color','r');
+    hold off;
+    xlabel('Iteration');
+    ylabel('Cost function');
+    title('Cost function vs iterations');
+    legend('Cost func', 'Minimum found');
+    grid on;
+end
 
-% Plot itae against iterations
-figure;
-hold on;
-plot(1:n, y_history);
-plot(1:n, y_best_history, 'LineStyle','-.', 'Color','r');
-hold off;
-xlabel('Iteration');
-ylabel('Cost function');
-title('Cost function vs iterations');
-legend('Cost func', 'Minimum found');
-grid on;
-
-
+end
