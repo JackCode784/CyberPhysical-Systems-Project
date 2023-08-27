@@ -1,4 +1,4 @@
-%% Simulation Script
+%% Simulation
 % This script serves as a starting point to simulate the simulink model of
 % the boat and correctly assign PID parameters according to the BAS
 % algorithm.
@@ -73,8 +73,8 @@ end
 k = x_best;
 display(['Best parameters found: ', num2str(k(1)), ', ', num2str(k(2)), ', ', num2str(k(3))]);
 
+%% Visualization
 if doPlot == true
-    %% Visualization
     figure;
     hold on;
     plot3(x_history(1,:), x_history(2,:), x_history(3,:), 'Color','r', 'LineStyle','-.');
