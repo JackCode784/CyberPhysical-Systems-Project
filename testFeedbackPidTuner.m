@@ -37,7 +37,6 @@ title('CL ideal system poles and zeroes');
 grid on;
 
 %% BAS PID step response test
-
 k_bas = Simulation(false);                      % PID parameters found with BAS
 pid_bas = pid(k_bas(1), k_bas(2), k_bas(3));    % Instantiate PID with BAS PID parameters
 S_bas = feedback(pid_bas * G, 1);               % Close the loop
@@ -52,4 +51,23 @@ grid on;
 figure;
 step(S_bas);
 title('BAS PID step response');
+grid on;
+
+%% Handmade PID
+pid_hand_ideal = k_ideal' * [1; 1/s; s];
+pid_hand_bas = k_bas' * [1; 1/s; s];
+
+% Handmade systems
+S_hand_ideal = feedback(pid_hand_ideal * G, 1);
+S_hand_bas = feedback(pid_hand_bas * G, 1);
+
+% Step responses
+figure;
+step(S_hand_ideal);
+title('Handmade ideal PID step response');
+grid on;
+
+figure;
+step(S_hand_bas);
+title('Handmade BAS PID step response');
 grid on;
