@@ -16,6 +16,7 @@ k = zeros(n_dims, 1);   % set of PID parameters to evaluate ITAE
 
 % Beetle position and orientation randomly initialized
 sz = [n_dims, 1];
+rng(42);
 x = rand(sz);       % random position of beetle
 x = x / norm(x);
 

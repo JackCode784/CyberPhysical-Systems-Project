@@ -2,8 +2,8 @@
 % 
 
 s = tf('s');
-%G = -21.99 / ((s+1)*s*(-22.96*s+1));    % Boat's transfer function
-G = (s+0.25) / (s*(s+1)*(6*s+1));
+G = 21.99 / ((s+1)*s*(22.96*s+1));    % Boat's transfer function
+%G = (s+0.25) / (s*(s+1)*(6*s+1));
 Gf = feedback(G, 1);
 
 % Closed loop step response
@@ -35,10 +35,10 @@ grid on;
 
 %% BAS PID step response test
 
-k_bas = Simulation(false);                      % PID parameters found with BAS
-bas_pid = pid(k_bas(1), k_bas(2), k_bas(3));
-S_bas = feedback(bas_pid * G, 1);
-figure;
-step(S_bas);
-title('BAS PID step response');
-grid on;
+% k_bas = Simulation(false);                      % PID parameters found with BAS
+% bas_pid = pid(k_bas(1), k_bas(2), k_bas(3));
+% S_bas = feedback(bas_pid * G, 1);
+% figure;
+% step(S_bas);
+% title('BAS PID step response');
+% grid on;
