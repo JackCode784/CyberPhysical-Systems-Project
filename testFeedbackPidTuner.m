@@ -63,11 +63,10 @@ S_hand_bas = feedback(pid_hand_bas * G, 1);
 
 % Step responses
 figure;
+hold on;
 step(S_hand_ideal);
-title('Handmade ideal PID step response');
-grid on;
-
-figure;
 step(S_hand_bas);
-title('Handmade BAS PID step response');
+hold off;
+title('Handmade PIDs step responses');
 grid on;
+legend('PID tuner', 'BAS PID');
