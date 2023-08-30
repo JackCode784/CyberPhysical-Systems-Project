@@ -4,8 +4,9 @@
 close all;
 
 s = tf('s');
-G = 21.99 / ((s+1)*s*(22.96*s+1));      % Boat's transfer function
+%G = 21.99 / ((s+1)*s*(22.96*s+1));      % Boat's transfer function
 %G = (s+0.25) / (s*(s+1)*(6*s+1));
+%G = 0.12 / (s*(1+1.27*s)); 
 Gf = feedback(G, 1);                    % Close the loop without PID
 
 % Closed loop without PID step response
