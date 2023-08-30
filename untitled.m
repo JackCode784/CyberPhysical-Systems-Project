@@ -1,6 +1,5 @@
 %% 
 %
-
 close all;
 s = tf('s');
 G = 21.99 / ((s+1)*s*(1+22.99*s));      % Plant tf
@@ -12,6 +11,19 @@ S_bas = feedback(pid_bas * G, 1);               % Close the loop
 pid_ideal = pidtune(G, 'PID');
 k_ideal = [pid_ideal.Kp; pid_ideal.Ki; pid_ideal.Kd];
 S_ideal = feedback(G*pid_ideal, 1);
+
+% Calcolo figure di merito uscita step PID BAS
+info_step_pid_bas = stepinfo(S_bas);
+rise_time_pid_bas = info_step_pid_bas.RiseTime;
+overshoot_pid_bas = info_step_pid_bas.Overshoot;
+settlingTime_pid_bas = info_step_pid_bas.SettlingTime;
+
+% Calcolo figure di merito uscita step PIDTune
+info_step_pid_ideal = stepinfo(S_ideal);
+rise_time_pid_ideal = info_step_pid_ideal.RiseTime;
+overshoot_pid_ideal = info_step_pid_ideal.Overshoot;
+settlingTime_pid_ideal = info_step_pid_ideal.SettlingTime;
+
 
 t = 1000;
 % Closed loop step response with PID
