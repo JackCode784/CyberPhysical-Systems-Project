@@ -42,7 +42,7 @@ function [k_best, itae_best] = bas_itae(sys)
         itae_r = compute_itae(k_r, sys, 1);
 
         % Update parameters
-        k = k + delta * sign(itae_l - itae_r)*b;
+        k = k + delta * sign(itae_l - itae_r) * b;
         itae_cur = compute_itae(k, sys, 1);
 
         if itae_cur < itae_best
