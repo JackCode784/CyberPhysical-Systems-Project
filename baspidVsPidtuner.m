@@ -1,10 +1,16 @@
-%% 
+%% BAS PID vs pidtuner step response comparison
 %
+
 close all;
 s = tf('s');
-G = 21.99 / ((s+1)*s*(1+22.99*s));  % Plant tf
-[k_bas, ~] = bas_itae(G);
 
+% Various tfs for testing purposes 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% G = 21.99 / ((s+1)*s*(1+22.99*s));  % Plant tf, first paper
+G = 0.12/ (s*(1+ 1.27*s));          % Plant tf, "asymmetric"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[k_bas, itae_bas] = bas_itae(G);    % Use BAS to find PID parameters
 pid_bas = k_bas' * [1; 1/s; s];     % Instantiate PID with BAS PID parameters
 S_bas = feedback(pid_bas * G, 1);   % Close the loop
 

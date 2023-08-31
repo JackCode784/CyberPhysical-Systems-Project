@@ -15,7 +15,7 @@ function [k_best, itae_best] = bas_itae(sys)
     n = 100;        % number of iterations
     n_dims = 3;     % search space dimension
     eta = 0.95;     % step factor
-    delta = 50;     % search step size. Tested values: 10, 100, 50
+    delta = 100;     % search step size. Tested values: 10, 100, 50
     d = 3;          % antennae's sensing length
     % d0 = 0.001;   % Constant
     
