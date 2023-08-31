@@ -1,8 +1,9 @@
 %% ITAE computation
 % 
 % Input:
-%   - k:    set of parameters to instantiate PID
-%   - sys:  open loop plant system
+%   - k:        set of parameters to instantiate PID
+%   - sys:      open loop plant system
+%   - y_ref:    expected output of closed loop system
 % 
 % Output:
 %   - itae:     itae evaluation

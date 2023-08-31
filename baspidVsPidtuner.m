@@ -2,23 +2,27 @@
 %
 close all;
 s = tf('s');
-G = 21.99 / ((s+1)*s*(1+22.99*s));      % Plant tf
+G = 21.99 / ((s+1)*s*(1+22.99*s));  % Plant tf
 [k_bas, ~] = bas_itae(G);
 
-pid_bas = k_bas' * [1; 1/s; s];    % Instantiate PID with BAS PID parameters
-S_bas = feedback(pid_bas * G, 1);               % Close the loop
+pid_bas = k_bas' * [1; 1/s; s];     % Instantiate PID with BAS PID parameters
+S_bas = feedback(pid_bas * G, 1);   % Close the loop
 
 pid_ideal = pidtune(G, 'PID');
 k_ideal = [pid_ideal.Kp; pid_ideal.Ki; pid_ideal.Kd];
-S_ideal = feedback(G*pid_ideal, 1);
 
+% WIP
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
+pid_ideal = k_ideal' * [1;1/s;s];
+S_ideal = feedback(pid_ideal * G, 1);
+% % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
-t = 2000;
 % Closed loop step response with PID
+t = 0:0.01:150;
 figure;
 hold on;
 step(S_ideal, t);
-step(S_bas,t);
+step(S_bas, t);
 hold off;
 title('CL step response with PID');
 grid on;

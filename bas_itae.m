@@ -14,10 +14,10 @@ function [k_best, itae_best] = bas_itae(sys)
     % Parameters
     n = 100;        % number of iterations
     n_dims = 3;     % search space dimension
-    d = 3;          % antennae's sensing length
-    % d0 = 0.001;     % Constant
     eta = 0.95;     % step factor
     delta = 10;     % search step size
+    d = 3;          % antennae's sensing length
+    % d0 = 0.001;   % Constant
     
     % Beetle position and orientation randomly initialized
     sz = [n_dims, 1];
