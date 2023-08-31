@@ -15,7 +15,7 @@ function [k_best, itae_best] = bas_itae(sys)
     n = 100;        % number of iterations
     n_dims = 3;     % search space dimension
     eta = 0.95;     % step factor
-    delta = 10;     % search step size
+    delta = 50;     % search step size. Tested values: 10, 100, 50
     d = 3;          % antennae's sensing length
     % d0 = 0.001;   % Constant
     
@@ -25,9 +25,12 @@ function [k_best, itae_best] = bas_itae(sys)
     k = k / norm(k);
     
     % Initialize best set of parameters
-    k_best = k;
-    itae_best = compute_itae(k, sys, 1);
-    
+    k_best = k; 
+    % Fix: compare ITAE in current position with itae_l, itae_r. If better,
+    % skip an iteration
+    itae_cur = compute_itae(k, sys, 1);
+    itae_best = itae_cur;
+
     for i=1:n
         % Random search direction
         b = rand(sz);
@@ -40,6 +43,12 @@ function [k_best, itae_best] = bas_itae(sys)
         % Compute ITAEs for left and right position
         itae_l = compute_itae(k_l, sys, 1);
         itae_r = compute_itae(k_r, sys, 1);
+
+        % Fix: compare ITAE in current position with itae_l, itae_r. If better,
+        % skip an iteration
+        if min([itae_r, itae_l]) > itae_cur
+            continue;
+        end
 
         % Update parameters
         k = k + delta * sign(itae_l - itae_r) * b;
