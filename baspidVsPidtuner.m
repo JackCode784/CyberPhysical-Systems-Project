@@ -29,6 +29,7 @@ figure;
 hold on;
 step(S_ideal, t);
 step(S_bas, t);
+plot([t(1), t(end)], [1, 1], 'k-.');
 hold off;
 title('CL step response with PID');
 grid on;
@@ -36,13 +37,12 @@ legend('PID tuner', 'BAS PID');
 
 % Closed loop poles and zeros
 figure;
+hold on;
 pzplot(S_ideal);
-title('CL system poles and zeroes PID tuner')
-grid on;
-
-figure;
 pzplot(S_bas);
-title('CL system poles and zeroes BAS PID');
+hold off;
+title('CL system poles and zeroes');
+legend('pidtuner', 'BAS');
 grid on;
 
 % Calcolo figure di merito uscita step PID BAS
