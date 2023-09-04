@@ -21,9 +21,9 @@ function [x_best, y_best] = BAS(doPlot)
 close all;
 
 % Parameters
-n_dims = 3;     % search space dimension
+n_dims = 2;     % search space dimension
 d = 3;          % antennae's sensing length
-% d0 = 0.001;     % Constant
+d0 = 0.001;     % Constant
 eta = 0.95;     % step factor
 delta = 10;     % search step size
 n = 100;        % max number of iterations
@@ -31,8 +31,8 @@ n = 100;        % max number of iterations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Testing
 % n_dims = 2;
-% d = 2;
-% delta = 0.8;
+d = 2;
+delta = 0.5;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 % Beetle position and orientation randomly initialized
@@ -62,7 +62,7 @@ for i=1:n
     b = b / norm(b);
 
     % Left and right antennae's position update
-    x_r = x + d * b;    
+    x_r = x + d * b;
     x_l = x - d * b;
 
     % Update beetle's position
@@ -76,7 +76,7 @@ for i=1:n
     
     % Update d and delta
     % Comment next two lines to set d and delta as constants
-    % d = d * eta + d0;
+    d = d * eta + d0;
     delta = delta * eta;
     
 end

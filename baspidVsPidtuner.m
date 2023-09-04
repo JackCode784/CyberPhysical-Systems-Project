@@ -2,15 +2,31 @@
 %
 
 close all;
+
+% Set seed to 4 for repeatability of results
+% rng(4);
+
+% Laplace variable
 s = tf('s');
 
-% Various tfs for testing purposes 
+% Various transfer functions for testing purposes 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % G = 21.99 / ((s+1)*s*(1+22.99*s));  % Plant tf, first paper
 G = 0.12/ (s*(1+ 1.27*s));          % Plant tf, "asymmetric"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[k_bas, itae_bas] = bas_itae(G);    % Use BAS to find PID parameters
+% Multistart implementation
+multistart = 5;
+k = zeros(3,multistart);
+itaes = zeros(1,multistart);
+
+for i=1:multistart
+    [k(:,i), itaes(i)] = bas_itae(G);    % Use BAS to find PID parameters
+end
+itae_bas = min(itaes);
+k_bas = k(:, itae_bas == itaes);
+
+% Creation of PIDs and loop closure
 pid_bas = k_bas' * [1; 1/s; s];     % Instantiate PID with BAS PID parameters
 S_bas = feedback(pid_bas * G, 1);   % Close the loop
 
@@ -45,14 +61,20 @@ title('CL system poles and zeroes');
 legend('pidtuner', 'BAS');
 grid on;
 
-% Calcolo figure di merito uscita step PID BAS
+% Get overshoot, rise time, settling time of BAS PID
 info_step_pid_bas = stepinfo(S_bas);
 rise_time_pid_bas = info_step_pid_bas.RiseTime;
 overshoot_pid_bas = info_step_pid_bas.Overshoot;
 settlingTime_pid_bas = info_step_pid_bas.SettlingTime;
 
-% Calcolo figure di merito uscita step PIDTune
+% Get overshoot, rise time, settling time of PID tuner
 info_step_pid_ideal = stepinfo(S_ideal);
 rise_time_pid_ideal = info_step_pid_ideal.RiseTime;
 overshoot_pid_ideal = info_step_pid_ideal.Overshoot;
 settlingTime_pid_ideal = info_step_pid_ideal.SettlingTime;
+
+% Evaluate phase margin of BAS PID
+[~, pm_bas] = margin(pid_bas * G);
+
+% Evaluate phase margin of PID tuner
+[~, pm_ideal] = margin(pid_ideal * G);

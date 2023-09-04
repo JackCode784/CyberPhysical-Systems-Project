@@ -19,14 +19,13 @@ function [k_best, itae_best] = bas_itae(sys)
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %     
     eta0 = 0.95;    % step factor
     eta = eta0;
-    s = 25;         % decay factor
+    % s = 25;         % decay factor
     delta0 = 100;
     delta = delta0;     % search step size. Tested values: 10, 100, 50
-    accuracy = 0.01;    % accuracy factor
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
     d = 3;          % antennae's sensing length
-    % d0 = 0.001;     % Constant
+    d0 = 0.001;     % Constant
     
     % Beetle position and orientation randomly initialized
     sz = [n_dims, 1];
@@ -69,8 +68,12 @@ function [k_best, itae_best] = bas_itae(sys)
         end
 
         % Update step size and learning rate
+        % Exponential scheduling
         delta = delta * eta;
-        % d = d * eta + d0;
+        d = d * eta + d0;
+
+        % Power scheduling
+        % delta = delta0 / (1 + i / s);
         % eta = eta0 / (1 + i/s);
     end
 end
