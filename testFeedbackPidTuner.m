@@ -20,7 +20,7 @@ rlocus(G);
 title('OL root locus');
 grid on;
 
-% Use PID tuner
+% Use PID tuner 
 pid_ideal = pidtune(G, 'PID');
 k_ideal = [pid_ideal.Kp; pid_ideal.Ki; pid_ideal.Kd];
 S_ideal = feedback(G*pid_ideal, 1);

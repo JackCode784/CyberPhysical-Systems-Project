@@ -55,7 +55,7 @@ for i=1:n
     itaes(1,i) = sim("System.slx", "SrcWorkspace", "current").itae_test1(end);
     k = x_r;
     %itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test(end);  %subsystem test
-    itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test1(end);
+    itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test1(end);  % sub
 
     % Update beetle's position
     x = x + delta * sign(itaes(1,i) - itaes(2,i)) * b;
