@@ -4,7 +4,7 @@
 close all;
 
 % Set seed to 4 for repeatability of results
-% rng(4);
+rng(4);
 
 % Laplace variable
 s = tf('s');
@@ -40,7 +40,7 @@ S_ideal = feedback(pid_ideal * G, 1);
 % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
 % Closed loop step response with PID
-t = 0:0.01:150;
+t = 0:0.01:100;      % discrete time vector
 figure;
 hold on;
 step(S_ideal, t);
