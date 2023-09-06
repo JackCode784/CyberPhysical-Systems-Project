@@ -29,8 +29,8 @@ itaes = zeros(2,n);             % history of itaes computed
 x_best = x;
 k = x;
 simOut = sim("System.slx", "SrcWorkspace", "current");
-% y_best = simOut.itae_test(end); subsystem test
-y_best = simOut.itae_test1(end); % subsystem Asymmetric Steering Hydrodynamics
+y_best = simOut.itae_test(end); %subsystem test
+%y_best = simOut.itae_test1(end); % subsystem Asymmetric Steering Hydrodynamics
 y_best_history = zeros(n,1);
 
 % Iterations
@@ -38,8 +38,8 @@ for i=1:n
     % Data history
     y_best_history(i) = y_best;
     x_history(:,i) = x;
-    %y_history(i) = simOut.itae_test(end); subsystem test
-    y_history(i) = simOut.itae_test1(end);  % subsystem Asymmetric Steering Hydrodynamics
+    y_history(i) = simOut.itae_test(end); %clesubsystem test
+    %y_history(i) = simOut.itae_test1(end);  % subsystem Asymmetric Steering Hydrodynamics
 
     % Random search direction
     b = rand(sz);
@@ -51,18 +51,18 @@ for i=1:n
 
     % Evaluate ITAE cost function in x_r, x_l
     k = x_l;
-    %itaes(1,i) = sim("System.slx", "SrcWorkspace", "current").itae_test(end);  %subsystem test
-    itaes(1,i) = sim("System.slx", "SrcWorkspace", "current").itae_test1(end);
+    itaes(1,i) = sim("System.slx", "SrcWorkspace", "current").itae_test(end);  %subsystem test
+    %itaes(1,i) = sim("System.slx", "SrcWorkspace", "current").itae_test1(end);
     k = x_r;
-    %itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test(end);  %subsystem test
-    itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test1(end);  % sub
+    itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test(end);  %subsystem test
+    %itaes(2,i) = sim("System.slx", "SrcWorkspace", "current").itae_test1(end);  % sub
 
     % Update beetle's position
     x = x + delta * sign(itaes(1,i) - itaes(2,i)) * b;
     k = x;
     simOut = sim("System.slx", 'SrcWorkspace', 'current');
-    %y = simOut.itae_test(end); %subsystem test
-    y = simOut.itae_test1(end);
+    y = simOut.itae_test(end); %subsystem test
+    %y = simOut.itae_test1(end);
 
     if y < y_best
         y_best = y;
