@@ -1,5 +1,5 @@
-%% BAS step
-% Compute a step of BAS optimization algorithm.
+%% BAS
+% Evaluate best parameters for PID to regulate a plant.
 %
 % Input:
 %   - sys: open loop plant transfer function
@@ -58,7 +58,7 @@ function [k_best, itae_best] = bas_itae(sys)
             continue;
         end
 
-        % Update parameters
+        % Update position
         k = k + delta * sign(itae_l - itae_r) * b;
         itae_cur = compute_itae(k, sys, 1);
 
