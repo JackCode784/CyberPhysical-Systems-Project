@@ -29,11 +29,12 @@ function [k_best, itae_best] = bas_itae(sys)
     
     % Beetle position and orientation randomly initialized
     sz = [n_dims, 1];
-    k = 6 * rand(sz) - 3;   % random position of beetle
+    k = rand(sz) - 0.5;   % random position of beetle
     k = k / norm(k);
     
     % Initialize best set of parameters
     k_best = k; 
+    
     % Fix: compare ITAE in current position with itae_l, itae_r. If better,
     % skip an iteration
     itae_cur = compute_itae(k, sys, 1);

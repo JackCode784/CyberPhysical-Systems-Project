@@ -35,12 +35,12 @@ d0 = 0.001;     % constant
 % delta0 = 0.01;  % constant
 
 % Parameters (BSAS)
-n_beetles = 50;  % number of beetles
-proba = 0.1;    % probability constant
+n_beetles = 50;     % number of beetles
+proba = 0.1;        % probability constant
 
 % Beetle position and orientation randomly initialized
 sz = [n_dims, 1];
-k = 6 * rand(sz) - 3;
+k = rand(sz) - 0.5;
 k = k / norm(k);
 k_best = k;
 itae_cur = compute_itae(k, sys, 1);

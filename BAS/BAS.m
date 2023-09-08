@@ -37,7 +37,7 @@ delta = 0.5;
 
 % Beetle position and orientation randomly initialized
 sz = [n_dims, 1];
-x = rand(sz);       % random position of beetle
+x = rand(sz) - 0.5;     % random position of beetle
 x = x / norm(x);
 
 % Data history for visualization
@@ -58,7 +58,7 @@ for i=1:n
     y_history(i) = y;
 
     % Random search direction
-    b = rand(sz);      
+    b = rand(sz) - 0.5;      
     b = b / norm(b);
 
     % Left and right antennae's position update
