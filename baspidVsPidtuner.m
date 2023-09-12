@@ -5,7 +5,7 @@
 close all;
 
 % Set seed to 4 for repeatability of results
-% rng(4);
+rng(4);
 
 % Laplace variable
 s = tf('s');
@@ -16,14 +16,9 @@ s = tf('s');
 G = 0.12/ (s*(1+ 1.27*s));          % Plant tf, "asymmetric"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Multistart implementation
+% Multistart
 multistart = 5;
-k = zeros(3,multistart);
-itaes = zeros(1,multistart);
-
-for i=1:multistart
-    [k(:,i), itaes(i)] = bas_itae(G);    % Use BAS to find PID parameters
-end
+[k, itaes] = bas_multistart(multistart, G);
 itae_bas = min(itaes);
 k_bas = k(:, itae_bas == itaes);
 

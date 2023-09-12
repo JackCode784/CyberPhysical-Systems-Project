@@ -28,13 +28,6 @@ eta = 0.95;     % step factor
 delta = 10;     % search step size
 n = 100;        % max number of iterations
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Testing
-% n_dims = 2;
-d = 2;
-delta = 0.5;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-
 % Beetle position and orientation randomly initialized
 sz = [n_dims, 1];
 x = rand(sz) - 0.5;     % random position of beetle
